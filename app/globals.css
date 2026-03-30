@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff8f2;
+  --foreground: #1c1917;
+  --card: rgba(255, 255, 255, 0.8);
+  --brand: #f97316;
+  --brand-deep: #c2410c;
+  --accent: #14b8a6;
+  --muted: #78716c;
+  --border: rgba(28, 25, 23, 0.08);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(251, 191, 36, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.14), transparent 24%),
+    linear-gradient(180deg, #fffaf5 0%, #fff2e2 100%);
+  color: var(--foreground);
+}
+
+.shell {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.glass-card {
+  @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_20px_80px_rgba(120,53,15,0.12)] backdrop-blur;
+}
+
+.section-title {
+  @apply text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl;
+}
