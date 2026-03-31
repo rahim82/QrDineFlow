@@ -186,3 +186,15 @@ CLOUDINARY_API_SECRET=...
 5. After the first deploy, update `NEXT_PUBLIC_APP_URL` to your final Render URL if needed and redeploy.
 
 6. Seed your production database only if you really want demo data. Do not seed production if it already has live data.
+
+## Reduce Render Free Cold Starts
+
+- Render free web services sleep after inactivity, so the first request may show a loading page while the app wakes up.
+- This cannot be fully removed from inside the app on the free plan.
+- To reduce it, ping this endpoint every 5-10 minutes from an external uptime monitor or cron service:
+
+```text
+https://your-render-service.onrender.com/api/health
+```
+
+- If you want the loading page gone reliably, move to a paid always-on plan.
