@@ -86,15 +86,15 @@ export default function LoginPage() {
     }
     return (<main className="shell min-h-screen py-10">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <section className="rounded-[2rem] bg-gradient-to-br from-stone-950 via-stone-900 to-orange-950 p-8 text-white">
+        <section className="rounded-4xl bg-gradient-to-br from-stone-950 via-stone-900 to-orange-950 p-8 text-white">
           <p className="text-sm uppercase tracking-[0.3em] text-orange-200">Manager access</p>
           <h1 className="mt-4 text-5xl font-semibold leading-tight">Return to your operations dashboard.</h1>
           <p className="mt-4 max-w-xl text-stone-300">
             Manage tables, menus, live orders, QR links, billing, and analytics from one dashboard.
           </p>
-          <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 text-sm text-stone-300">
+          {/* <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 text-sm text-stone-300">
             Demo buttons have been removed. Managers now register or log in to manage their own workspace.
-          </div>
+          </div> */}
         </section>
         <div className="glass-card w-full p-8">
           <div className="flex items-center justify-between">

@@ -53,7 +53,7 @@ export default function HomePage() {
             <div className="rounded-[1.75rem] bg-white p-5 text-stone-950">
               <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Checkout modes</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full bg-orange-100 px-3 py-1 text-sm text-orange-700">Card via Razorpay</span>
+                {/* <span className="rounded-full bg-orange-100 px-3 py-1 text-sm text-orange-700">Card via Razorpay</span> */}
                 <span className="rounded-full bg-stone-100 px-3 py-1 text-sm text-stone-700">Pay at table</span>
               </div>
             </div>
