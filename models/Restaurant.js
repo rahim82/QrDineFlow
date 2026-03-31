@@ -5,6 +5,6 @@ const restaurantSchema = new Schema({
     tagline: { type: String, required: true },
     logo: { type: String },
     managerIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    gstRate: { type: Number, default: 0.05 }
+    gstRate: { type: Number, default: 0 }
 }, { timestamps: true });
 export const Restaurant = models.Restaurant || model("Restaurant", restaurantSchema);

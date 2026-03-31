@@ -145,7 +145,7 @@ export default function LoginPage() {
                   {loading && otpSent ? "Verifying OTP..." : "Verify OTP"}
                 </button>
               </form>
-              <p className="text-sm text-stone-500">In development, OTP is also printed in the terminal so you can test the flow quickly.</p>
+              {/* <p className="text-sm text-stone-500">In development, OTP is also printed in the terminal so you can test the flow quickly.</p> */}
             </div>)}
         </div>
       </div>

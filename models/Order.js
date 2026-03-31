@@ -27,7 +27,7 @@ const orderSchema = new Schema({
     gstAmount: { type: Number, required: true },
     totalAmount: { type: Number, required: true },
     splitParticipants: [splitParticipantSchema],
-    paymentMethod: { type: String, enum: ["card", "cash"], required: true }
+    paymentMethod: { type: String, enum: ["cash"], required: true }
 }, { timestamps: true });
 orderSchema.index({ restaurantId: 1, createdAt: -1 });
 export const Order = models.Order || model("Order", orderSchema);

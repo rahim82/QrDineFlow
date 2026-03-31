@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { AnalyticsOverview } from "@/components/dashboard/analytics-overview";
 import { ManagerControlPanelV2 } from "@/components/dashboard/manager-control-panel-v2";
 import { ManagerLiveFeed } from "@/components/dashboard/manager-live-feed";
-import { OrderStatusCard } from "@/components/dashboard/order-status-card";
+import { AdvancedOrderCard } from "@/components/dashboard/advanced-order-card";
 import { LogoutButton } from "@/components/shared/logout-button";
 import { getSession } from "@/lib/auth";
 import { getManagerDashboardDataByRestaurantId } from "@/lib/data";
@@ -46,7 +46,7 @@ export default async function ManagerDashboardPage() {
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Operations view</p>
             <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">Live orders and analytics</h2>
-            <p className="mt-2 max-w-2xl text-stone-600">Kitchen flow, billing activity, and table performance appear here.</p>
+            <p className="mt-2 max-w-2xl text-stone-600">Kitchen flow, order details, and table performance appear here.</p>
           </div>
         </div>
       </section>
@@ -60,24 +60,11 @@ export default async function ManagerDashboardPage() {
             <span className="text-sm text-stone-500">{data.orders.length} recent</span>
           </div>
           <div className="mt-6 space-y-4">
-            {data.orders.map((order) => (<OrderStatusCard key={String(order._id)} id={String(order._id)} tableNumber={order.tableNumber} customerName={order.customerName} itemCount={order.items.length} amount={formatCurrency(order.totalAmount)} status={order.status}/>))}
+            {data.orders.map((order) => (<AdvancedOrderCard key={String(order._id)} id={String(order._id)} tableNumber={order.tableNumber} customerName={order.customerName} itemCount={order.items.length} amount={formatCurrency(order.totalAmount)} status={order.status} createdAt={order.createdAt} items={order.items} splitParticipants={order.splitParticipants}/>))}
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="glass-card p-6">
-            <h2 className="text-2xl font-semibold">Payment activity</h2>
-            <div className="mt-4 space-y-3">
-              {data.payments.map((payment) => (<div key={String(payment._id)} className="flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
-                  <div>
-                    <p className="font-medium">{payment.method === "card" ? "Card payment" : "Pay at table"}</p>
-                    <p className="text-sm text-stone-500">{payment.status}</p>
-                  </div>
-                  <span className="font-semibold">{formatCurrency(payment.amount)}</span>
-                </div>))}
-            </div>
-          </div>
-
           <div className="glass-card p-6">
             <h2 className="text-2xl font-semibold">Table performance</h2>
             <div className="mt-4 space-y-3">

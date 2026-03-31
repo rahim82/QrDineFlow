@@ -37,7 +37,7 @@ export async function POST(request) {
     name: parsed.data.name,
     slug,
     tagline: parsed.data.tagline,
-    gstRate: parsed.data.gstRate
+    gstRate: 0
   });
 
   return NextResponse.json({ restaurant }, { status: 201 });

@@ -19,7 +19,6 @@ export async function GET(_, { params }) {
         createdAt: String(order.createdAt),
         lines: order.items,
         subtotal: order.subtotal,
-        gstAmount: order.gstAmount,
         totalAmount: order.totalAmount
     });
     return new NextResponse(pdf, {

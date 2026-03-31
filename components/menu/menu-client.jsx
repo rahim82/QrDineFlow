@@ -52,7 +52,7 @@ async function readJsonSafely(response) {
 export function MenuClient({ restaurantId, restaurantName, tableId, tableNumber, menu }) {
     const [customerName, setCustomerName] = useState("Guest");
     const [splitWith, setSplitWith] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState("card");
+    const [paymentMethod] = useState("cash");
     const [cart, setCart] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [latestStatus, setLatestStatus] = useState("Browse and place your order");
@@ -137,19 +137,6 @@ export function MenuClient({ restaurantId, restaurantName, tableId, tableNumber,
             setLastOrderId(String(data.order._id));
             setPaymentStatus(data.payment.status);
             setLatestStatus(`Order received. Bill total ${formatCurrency(data.bill.total)}`);
-            if (paymentMethod !== "cash") {
-                const paymentResponse = await fetch("/api/payments/create-order", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        amount: data.bill.total,
-                        receipt: String(data.order._id)
-                    })
-                });
-                if (!paymentResponse.ok) {
-                    toast.error("Payment order could not be initialized");
-                }
-            }
         }
         catch (error) {
             console.error("placeOrder network error", error);
@@ -207,10 +194,9 @@ export function MenuClient({ restaurantId, restaurantName, tableId, tableNumber,
         <div className="mt-6 space-y-4">
           <input value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3" placeholder="Customer name"/>
           <input value={splitWith} onChange={(event) => setSplitWith(event.target.value)} className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3" placeholder="Split with: Asha, Rohan"/>
-          <select value={paymentMethod} onChange={(event) => setPaymentMethod(event.target.value)} className="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3">
-            <option value="card">Card</option>
-            <option value="cash">Pay at table</option>
-          </select>
+          <div className="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-700">
+            Payment mode: Pay at table
+          </div>
         </div>
 
         <div className="mt-6 space-y-3">

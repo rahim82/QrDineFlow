@@ -40,7 +40,7 @@ export async function PATCH(request, { params }) {
 
   existing.name = parsed.data.name;
   existing.tagline = parsed.data.tagline;
-  existing.gstRate = parsed.data.gstRate;
+  existing.gstRate = 0;
   await existing.save();
 
   return NextResponse.json({ restaurant: existing });

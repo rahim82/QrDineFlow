@@ -4,7 +4,7 @@ const paymentSchema = new Schema({
     restaurantId: { type: Schema.Types.ObjectId, ref: "Restaurant", required: true },
     razorpayOrderId: { type: String },
     razorpayPaymentId: { type: String },
-    method: { type: String, enum: ["card", "cash"], required: true },
+    method: { type: String, enum: ["cash"], required: true },
     status: { type: String, enum: ["pending", "successful", "failed"], default: "pending" },
     amount: { type: Number, required: true }
 }, { timestamps: true });

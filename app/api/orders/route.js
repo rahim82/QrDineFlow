@@ -37,7 +37,7 @@ export async function POST(request) {
         }
         const result = await createOrderWithPayment({
             ...parsed.data,
-            gstRate: restaurant.gstRate
+            gstRate: 0
         });
         global.io?.to(`restaurant:${parsed.data.restaurantId}`).emit("order:new", {
             orderId: String(result.order._id),

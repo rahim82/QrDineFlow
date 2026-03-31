@@ -24,7 +24,7 @@ export async function POST(request) {
         name: parsed.data.restaurantName,
         slug,
         tagline: parsed.data.tagline,
-        gstRate: 0.05
+        gstRate: 0
     });
     const passwordHash = await bcrypt.hash(parsed.data.password, 10);
     const user = await User.create({

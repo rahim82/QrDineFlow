@@ -4,10 +4,6 @@ import { startTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function formatPercent(value) {
-  return `${Number(value * 100).toFixed(0)}% GST`;
-}
-
 export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
   const router = useRouter();
   const [restaurants, setRestaurants] = useState(initialRestaurants);
@@ -26,8 +22,7 @@ export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: String(formData.get("name")),
-          tagline: String(formData.get("tagline")),
-          gstRate: Number(formData.get("gstRate")) / 100
+          tagline: String(formData.get("tagline"))
         })
       });
 
@@ -54,8 +49,6 @@ export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
     if (!name) return;
     const tagline = window.prompt("Restaurant tagline", restaurant.tagline);
     if (!tagline) return;
-    const gstRate = window.prompt("GST percentage", String(Number(restaurant.gstRate || 0) * 100));
-    if (!gstRate) return;
 
     setEditingId(restaurant._id);
     try {
@@ -64,8 +57,7 @@ export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          tagline,
-          gstRate: Number(gstRate) / 100
+          tagline
         })
       });
 
@@ -137,17 +129,6 @@ export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
             className="min-h-24 rounded-2xl border border-stone-200 px-4 py-3"
             required
           />
-          <input
-            name="gstRate"
-            type="number"
-            min="0"
-            max="100"
-            step="1"
-            defaultValue="5"
-            placeholder="GST percentage"
-            className="rounded-2xl border border-stone-200 px-4 py-3"
-            required
-          />
           <button
             disabled={creating}
             className="rounded-2xl bg-stone-950 px-4 py-3 text-white disabled:opacity-60"
@@ -172,7 +153,6 @@ export function RestaurantAdminPanel({ restaurants: initialRestaurants }) {
                     <p className="mt-1 text-sm text-stone-600">{restaurant.tagline}</p>
                     <div className="mt-3 flex flex-wrap gap-2 text-xs text-stone-500">
                       <span className="rounded-full bg-white px-3 py-1">/{restaurant.slug}</span>
-                      <span className="rounded-full bg-white px-3 py-1">{formatPercent(restaurant.gstRate || 0)}</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">

@@ -1,13 +1,13 @@
 # QR DineFlow
 
-Production-ready full-stack restaurant QR ordering system built with Next.js 16.2.1, Tailwind CSS 4.2.2, MongoDB, Socket.io, and Razorpay-ready payment flows.
+Production-ready full-stack restaurant QR ordering system built with Next.js 16.2.1, Tailwind CSS 4.2.2, MongoDB, and Socket.io.
 
 ## Features
 
 - Smart menu with categories, images, stock states, and dynamic happy-hour pricing
 - QR-based table journeys that open a menu for the exact restaurant table
-- Digital billing with GST, split billing metadata, and downloadable PDF invoices
-- Razorpay-ready payment order creation and verification with card and cash support
+- Digital billing with split billing metadata and downloadable PDF invoices
+- Pay-at-table billing flow with real-time order updates
 - Real-time order notifications for restaurant operations and live customer order updates
 - Admin and manager dashboards with sales, top items, peak hours, and table performance
 - JWT login for admin and manager roles with password or OTP
@@ -20,7 +20,6 @@ Production-ready full-stack restaurant QR ordering system built with Next.js 16.
 - React 19
 - MongoDB + Mongoose
 - Socket.io
-- Razorpay
 - Recharts
 
 ## Folder Structure
@@ -78,8 +77,6 @@ types/
 - `POST /api/orders` create order, bill, and payment record
 - `PATCH /api/orders/:id` update order status
 - `GET /api/orders/:id/bill` download PDF bill
-- `POST /api/payments/create-order` create Razorpay order or mock order
-- `POST /api/payments/verify` verify payment status
 - `GET /api/analytics/summary?restaurantId=<id>` fetch analytics summary
 - `GET /api/tables/qr?restaurantSlug=<slug>&tableNumber=<number>` generate QR payload
 - `POST /api/seed` seed sample data
@@ -87,11 +84,11 @@ types/
 ## MongoDB Collections
 
 - `users`: admin and manager accounts
-- `restaurants`: restaurant records and GST settings
+- `restaurants`: restaurant records and manager linkage
 - `tables`: table inventory and QR targets
 - `menuitems`: menu catalog, stock flags, pricing rules
 - `orders`: placed orders, bill totals, split billing
-- `payments`: payment lifecycle and Razorpay references
+- `payments`: payment lifecycle records
 
 ## Local Setup
 
@@ -128,11 +125,6 @@ npm run dev
 - Admin: `admin@demo.com` / `password123`
 - Manager: `manager@demo.com` / `password123`
 
-## Razorpay Notes
-
-- Add `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` in `.env.local` for real payments.
-- Without Razorpay credentials, the app falls back to a mock payment order so the rest of the flow still works locally.
-
 ## OTP Email Setup
 
 - OTP login can send real email through SMTP.
@@ -149,7 +141,7 @@ npm run dev
 ## Production Notes
 
 - Put Next.js behind a process manager like PM2 or systemd and run `node server.js`
-- Store JWT secret and Razorpay secrets in a real secret manager
+- Store JWT secret and third-party service secrets in a real secret manager
 - Add role checks around protected routes before deployment
 - Add webhooks for payment reconciliation and kitchen printer integrations as needed
 
@@ -171,8 +163,6 @@ NODE_ENV=production
 NEXT_PUBLIC_APP_URL=https://your-render-service.onrender.com
 MONGODB_URI=...
 JWT_SECRET=...
-RAZORPAY_KEY_ID=...
-RAZORPAY_KEY_SECRET=...
 SMTP_HOST=...
 SMTP_PORT=587
 SMTP_USER=...
