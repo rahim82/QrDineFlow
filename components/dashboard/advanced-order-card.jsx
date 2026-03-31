@@ -5,13 +5,6 @@ import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
 
 const statuses = ["received", "preparing", "ready", "served"];
-const statusSteps = [
-    { key: "received", label: "Order received" },
-    { key: "preparing", label: "Preparing" },
-    { key: "ready", label: "Ready to serve" },
-    { key: "served", label: "Served" }
-];
-
 export function AdvancedOrderCard({
     id,
     tableNumber,
@@ -32,8 +25,6 @@ export function AdvancedOrderCard({
             timeStyle: "short"
         }).format(new Date(createdAt))
         : null;
-
-    const activeStatusIndex = statuses.indexOf(currentStatus);
 
     function updateStatus(nextStatus) {
         startTransition(async () => {
@@ -73,25 +64,6 @@ export function AdvancedOrderCard({
                     </span>
                     <p className="mt-3 text-2xl font-semibold text-stone-950">{amount}</p>
                 </div>
-            </div>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-4">
-                {statusSteps.map((step, index) => {
-                    const isComplete = index <= activeStatusIndex;
-
-                    return (
-                        <div
-                            key={step.key}
-                            className={`rounded-2xl border px-3 py-3 text-sm transition ${
-                                isComplete
-                                    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                                    : "border-stone-200 bg-stone-50 text-stone-400"
-                            }`}
-                        >
-                            <p className="font-medium">{step.label}</p>
-                        </div>
-                    );
-                })}
             </div>
 
             <div className="mt-5 grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
