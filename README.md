@@ -10,7 +10,7 @@ Production-ready full-stack restaurant QR ordering system built with Next.js 16.
 - Pay-at-table billing flow with real-time order updates
 - Real-time order notifications for restaurant operations and live customer order updates
 - Admin and manager dashboards with sales, top items, peak hours, and table performance
-- JWT login for admin and manager roles with password
+- JWT login for admin and manager roles with password or Google
 - Modular REST APIs and MongoDB schemas built for multi-restaurant scaling
 
 ## Tech Stack
@@ -68,6 +68,8 @@ types/
 ## API Routes
 
 - `POST /api/auth/login` login with password and set JWT cookie
+- `GET /api/auth/google` start Google login
+- `GET /api/auth/google/callback` finish Google login and set JWT cookie
 - `GET /api/menu?restaurantId=<id>&hideUnavailable=true` list menu items
 - `POST /api/menu` create menu items
 - `PATCH /api/menu/:id` update menu items or availability
@@ -155,6 +157,8 @@ NODE_ENV=production
 NEXT_PUBLIC_APP_URL=https://your-render-service.onrender.com
 MONGODB_URI=...
 JWT_SECRET=...
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...

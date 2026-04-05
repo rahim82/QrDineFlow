@@ -1,10 +1,13 @@
 "use client";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 export default function LoginPage() {
+    const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [passwordValues, setPasswordValues] = useState({ email: "", password: "" });
+    const googleError = searchParams.get("error");
 
     async function handlePasswordLogin(event) {
         event.preventDefault();
@@ -48,11 +51,40 @@ export default function LoginPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-semibold text-stone-950">Login</h1>
-              <p className="mt-2 text-sm text-stone-500">Use your email and password to open the dashboard.</p>
+              <p className="mt-2 text-sm text-stone-500">Use your email and password or continue with Google.</p>
             </div>
             <Link href="/register" className="text-sm font-medium text-orange-700">
               Register
             </Link>
+          </div>
+          {googleError ? (
+            <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              Google login could not be completed. Please try again.
+            </div>
+          ) : null}
+          <div className="mt-6 space-y-4">
+            <a href="/api/auth/google" className="group flex w-full items-center justify-between rounded-[1.35rem] border border-stone-200 bg-[linear-gradient(180deg,#ffffff_0%,#fafaf9_100%)] px-5 py-4 text-left shadow-[0_12px_32px_rgba(28,25,23,0.06)] transition hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-[0_18px_40px_rgba(28,25,23,0.1)]">
+              <div className="flex items-center gap-4">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-stone-200 bg-white shadow-sm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
+                    <path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.2-.9 2.3-1.9 3.1l3.1 2.4c1.8-1.7 2.9-4.1 2.9-7 0-.7-.1-1.5-.2-2.1H12z" />
+                    <path fill="#34A853" d="M12 21c2.6 0 4.9-.9 6.5-2.4l-3.1-2.4c-.9.6-2 .9-3.4.9-2.6 0-4.9-1.8-5.7-4.2l-3.2 2.5C4.8 18.8 8.1 21 12 21z" />
+                    <path fill="#4285F4" d="M6.3 12.9c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9L3.1 6.6C2.4 8 2 9.5 2 11s.4 3 1.1 4.4l3.2-2.5z" />
+                    <path fill="#FBBC05" d="M12 4.9c1.4 0 2.7.5 3.7 1.4l2.7-2.7C16.9 2.2 14.7 1.3 12 1.3 8.1 1.3 4.8 3.5 3.1 6.6l3.2 2.5C7.1 6.7 9.4 4.9 12 4.9z" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-stone-950">Continue with Google</p>
+                  {/* <p className="mt-1 text-xs text-stone-500">Fast sign-in for admin and manager access</p> */}
+                </div>
+              </div>
+              {/* <span className="text-sm font-medium text-stone-400 transition group-hover:text-stone-700">Open</span> */}
+            </a>
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-stone-200" />
+              <span className="text-xs font-medium uppercase tracking-[0.24em] text-stone-400">or</span>
+              <div className="h-px flex-1 bg-stone-200" />
+            </div>
           </div>
           <form className="mt-6 space-y-4" onSubmit={handlePasswordLogin}>
               <div>
