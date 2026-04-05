@@ -9,6 +9,20 @@ export default function LoginPage() {
     const [otpEmail, setOtpEmail] = useState("");
     const [otpCode, setOtpCode] = useState("");
     const [otpSent, setOtpSent] = useState(false);
+
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 20000) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            return await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+        }
+        finally {
+            clearTimeout(timeoutId);
+        }
+    }
     async function handlePasswordLogin(event) {
         event.preventDefault();
         setLoading(true);
@@ -38,7 +52,7 @@ export default function LoginPage() {
         event.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch("/api/auth/request-otp", {
+            const response = await fetchWithTimeout("/api/auth/request-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: otpEmail })
@@ -53,7 +67,7 @@ export default function LoginPage() {
         }
         catch (error) {
             console.error("request otp network error", error);
-            toast.error("The OTP request could not reach the server");
+            toast.error(error?.name === "AbortError" ? "OTP request timed out" : "The OTP request could not reach the server");
         }
         finally {
             setLoading(false);

@@ -440,7 +440,9 @@ export function ManagerControlPanelV2({ restaurantId, restaurantSlug, tables: in
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <p className="font-medium">Table {table.tableNumber}</p>
-                    <p className="text-sm text-stone-500">{table.seats} seats</p>
+                    <p className="text-sm text-stone-500">
+                      {table.seats} seats / {table.isOccupied ? "Occupied" : "Free"}
+                    </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <button onClick={() => handleQrPreview(table.tableNumber)} className="rounded-full border border-stone-200 px-3 py-2 text-sm">

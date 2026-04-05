@@ -3,10 +3,12 @@ import { formatCurrency } from "@/lib/utils";
 export function AnalyticsOverview({ summary }) {
     return (<div className="glass-card p-6">
         <h3 className="text-lg font-semibold">Sales overview</h3>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
           <MetricCard label="Today" value={formatCurrency(summary.sales.daily)}/>
           <MetricCard label="This week" value={formatCurrency(summary.sales.weekly)}/>
           <MetricCard label="This month" value={formatCurrency(summary.sales.monthly)}/>
+          <MetricCard label="Total orders" value={String(summary.totals.orders)}/>
+          <MetricCard label="Average order" value={formatCurrency(summary.totals.averageOrderValue)}/>
         </div>
     </div>);
 }

@@ -50,7 +50,9 @@ export default async function ManagerDashboardPage() {
                     _id: String(table._id),
                     tableNumber: table.tableNumber,
                     seats: table.seats,
-                    qrCodeUrl: table.qrCodeUrl
+                    qrCodeUrl: table.qrCodeUrl,
+                    isOccupied: Boolean(table.isOccupied),
+                    activeOrderId: table.activeOrderId
                 }))}
                 menu={data.menu}
             />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
@@ -16,6 +17,7 @@ export function AdvancedOrderCard({
     items = [],
     splitParticipants = []
 }) {
+    const router = useRouter();
     const [currentStatus, setCurrentStatus] = useState(status);
     const [isPending, startTransition] = useTransition();
 
@@ -39,8 +41,16 @@ export function AdvancedOrderCard({
                 return;
             }
 
+            const data = await response.json();
+            if (data?.removed) {
+                toast.success("Order served. The order was cleared and the table is now free.");
+                router.refresh();
+                return;
+            }
+
             setCurrentStatus(nextStatus);
             toast.success(`Order moved to ${nextStatus}`);
+            router.refresh();
         });
     }
 
