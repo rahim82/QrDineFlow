@@ -1,13 +1,22 @@
 "use client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 export default function LoginPage() {
+    return (<Suspense fallback={<LoginPageContent googleError={null}/>}>
+      <LoginPageInner />
+    </Suspense>);
+}
+
+function LoginPageInner() {
     const searchParams = useSearchParams();
+    return <LoginPageContent googleError={searchParams.get("error")} />;
+}
+
+function LoginPageContent({ googleError }) {
     const [loading, setLoading] = useState(false);
     const [passwordValues, setPasswordValues] = useState({ email: "", password: "" });
-    const googleError = searchParams.get("error");
 
     async function handlePasswordLogin(event) {
         event.preventDefault();
