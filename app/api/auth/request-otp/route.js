@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { sendOtpEmail } from "@/lib/mailer";
+import { sendOtpEmail, verifySmtpConnection } from "@/lib/mailer";
 import { canRequestOtp, createOtpRecord, generateOtpCode } from "@/lib/otp";
 import { requestOtpSchema } from "@/lib/validations/auth";
 import { User } from "@/models/User";
@@ -31,10 +31,29 @@ export async function POST(request) {
 
         let mailResult = { delivered: false, reason: "unknown" };
         try {
+            const smtpCheck = await verifySmtpConnection();
+            if (!smtpCheck.ok) {
+                console.error("SMTP verification failed", {
+                    reason: smtpCheck.reason,
+                    message: smtpCheck.message
+                });
+            }
             mailResult = await sendOtpEmail({ email: user.email, otp });
+            console.info("OTP email delivery result", {
+                delivered: mailResult.delivered,
+                messageId: mailResult.messageId,
+                accepted: mailResult.accepted,
+                rejected: mailResult.rejected
+            });
         }
         catch (error) {
-            console.error("OTP email delivery failed", error);
+            console.error("OTP email delivery failed", {
+                message: error?.message,
+                code: error?.code,
+                response: error?.response,
+                responseCode: error?.responseCode,
+                command: error?.command
+            });
             mailResult = { delivered: false, reason: "smtp_failed" };
         }
 
