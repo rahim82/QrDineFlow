@@ -10,7 +10,7 @@ Production-ready full-stack restaurant QR ordering system built with Next.js 16.
 - Pay-at-table billing flow with real-time order updates
 - Real-time order notifications for restaurant operations and live customer order updates
 - Admin and manager dashboards with sales, top items, peak hours, and table performance
-- JWT login for admin and manager roles with password or OTP
+- JWT login for admin and manager roles with password
 - Modular REST APIs and MongoDB schemas built for multi-restaurant scaling
 
 ## Tech Stack
@@ -68,8 +68,6 @@ types/
 ## API Routes
 
 - `POST /api/auth/login` login with password and set JWT cookie
-- `POST /api/auth/request-otp` generate OTP for an existing admin/manager account
-- `POST /api/auth/verify-otp` verify OTP and set JWT cookie
 - `GET /api/menu?restaurantId=<id>&hideUnavailable=true` list menu items
 - `POST /api/menu` create menu items
 - `PATCH /api/menu/:id` update menu items or availability
@@ -125,12 +123,6 @@ npm run dev
 - Admin: `admin@demo.com` / `password123`
 - Manager: `manager@demo.com` / `password123`
 
-## OTP Email Setup
-
-- OTP login can send real email through SMTP.
-- Add `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `SMTP_FROM` to `.env.local`.
-- If SMTP is not configured, OTP is only printed in the server terminal during development.
-
 ## Menu Image Uploads
 
 - MongoDB should store only the image URL, not the image binary.
@@ -163,11 +155,6 @@ NODE_ENV=production
 NEXT_PUBLIC_APP_URL=https://your-render-service.onrender.com
 MONGODB_URI=...
 JWT_SECRET=...
-SMTP_HOST=...
-SMTP_PORT=587
-SMTP_USER=...
-SMTP_PASS=...
-SMTP_FROM=...
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...

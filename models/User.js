@@ -4,9 +4,6 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ["admin", "manager"], required: true },
-    restaurantId: { type: Schema.Types.ObjectId, ref: "Restaurant" },
-    otpCodeHash: { type: String },
-    otpExpiresAt: { type: Date },
-    otpRequestedAt: { type: Date }
+    restaurantId: { type: Schema.Types.ObjectId, ref: "Restaurant" }
 }, { timestamps: true });
 export const User = models.User || model("User", userSchema);
