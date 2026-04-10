@@ -1,5 +1,12 @@
 # QR DineFlow
 
+This repo now also includes a split deployment structure:
+
+- [frontend_web](/d:/QR%20scan/frontend_web) for Vercel
+- [backend](/d:/QR%20scan/backend) for Render
+
+Use [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md) for the separate frontend/backend setup. The rest of this README reflects the older single-app structure.
+
 Production-ready full-stack restaurant QR ordering system built with Next.js 16.2.1, Tailwind CSS 4.2.2, MongoDB, and Socket.io.
 
 ## Features
