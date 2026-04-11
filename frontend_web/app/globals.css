@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   --background: #fff8f2;
   --foreground: #1c1917;
@@ -25,7 +23,7 @@ body {
 }
 
 .glass-card {
-  @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_20px_80px_rgba(120,53,15,0.12)] backdrop-blur;
+  @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_20px_80px_rgba(120, 53, 15, 0.12)] backdrop-blur;
 }
 
 .section-title {

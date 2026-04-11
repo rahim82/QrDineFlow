@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
 
@@ -168,6 +167,9 @@ export function ManagerControlPanelV2({ restaurantId, restaurantSlug, tables: in
 
     setDownloadingQrPdf(true);
     try {
+      // Dynamic import to avoid build-time module resolution issues
+      const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
+
       const imageResponse = await fetch(activeQr.dataUrl);
       const imageBytes = await imageResponse.arrayBuffer();
 
@@ -326,10 +328,10 @@ export function ManagerControlPanelV2({ restaurantId, restaurantSlug, tables: in
     setMenuEditDraft((current) =>
       current
         ? {
-            ...current,
-            imageFile: file,
-            previewUrl: URL.createObjectURL(file)
-          }
+          ...current,
+          imageFile: file,
+          previewUrl: URL.createObjectURL(file)
+        }
         : current
     );
   }
