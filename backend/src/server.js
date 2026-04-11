@@ -48,11 +48,27 @@ const io = new SocketIOServer(server, {
 const upload = multer({ storage: multer.memoryStorage() });
 const sessionMaxAgeMs = 1000 * 60 * 60 * 24 * 7;
 const oauthStateMaxAgeMs = 1000 * 60 * 10;
-const allowedOrigins = new Set([env.appUrl, "http://localhost:3000", "http://localhost:3001"].filter(Boolean));
+
+function isAllowedOrigin(origin) {
+  if (!origin) {
+    return true;
+  }
+
+  const normalizedOrigin = origin.toLowerCase();
+  const exactOrigins = [env.appUrl, env.backendUrl, "http://localhost:3000", "http://localhost:3001"]
+    .filter(Boolean)
+    .map((value) => value.toLowerCase());
+
+  if (exactOrigins.includes(normalizedOrigin)) {
+    return true;
+  }
+
+  return normalizedOrigin.endsWith(".vercel.app");
+}
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.has(origin)) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
       return;
     }

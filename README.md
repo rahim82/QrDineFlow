@@ -1,13 +1,11 @@
 # QR DineFlow
 
-This repo now also includes a split deployment structure:
+Production-ready restaurant QR ordering system, now split for deployment:
 
 - [frontend_web](/d:/QR%20scan/frontend_web) for Vercel
 - [backend](/d:/QR%20scan/backend) for Render
 
-Use [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md) for the separate frontend/backend setup. The rest of this README reflects the older single-app structure.
-
-Production-ready full-stack restaurant QR ordering system built with Next.js 16.2.1, Tailwind CSS 4.2.2, MongoDB, and Socket.io.
+Detailed split setup is in [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md).
 
 ## Features
 
@@ -32,83 +30,38 @@ Production-ready full-stack restaurant QR ordering system built with Next.js 16.
 ## Folder Structure
 
 ```text
-app/
-  api/
-    analytics/summary
-    auth/login
-    menu
-    orders
-    payments
-    seed
-    tables/qr
-  admin/dashboard
-  manager/dashboard
-  menu/[restaurantId]/[tableNumber]
-  (marketing)/login
-components/
-  dashboard/
-  menu/
-  providers/
-  shared/
-lib/
-  auth.ts
-  billing.ts
-  data.ts
-  db.ts
-  env.ts
-  pdf.ts
-  pricing.ts
-  socket.ts
+backend/
+  src/server.js
+  models/
+  scripts/
   validations/
-models/
-  MenuItem.ts
-  Order.ts
-  Payment.ts
-  Restaurant.ts
-  Table.ts
-  User.ts
-scripts/
-  seed.ts
-types/
+frontend_web/
+  app/
+  components/
+  lib/
 ```
 
-## API Routes
+## Deploy Targets
 
-- `POST /api/auth/login` login with password and set JWT cookie
-- `GET /api/auth/google` start Google login
-- `GET /api/auth/google/callback` finish Google login and set JWT cookie
-- `GET /api/menu?restaurantId=<id>&hideUnavailable=true` list menu items
-- `POST /api/menu` create menu items
-- `PATCH /api/menu/:id` update menu items or availability
-- `GET /api/orders?restaurantId=<id>` list orders
-- `POST /api/orders` create order, bill, and payment record
-- `PATCH /api/orders/:id` update order status
-- `GET /api/orders/:id/bill` download PDF bill
-- `GET /api/analytics/summary?restaurantId=<id>` fetch analytics summary
-- `GET /api/tables/qr?restaurantSlug=<slug>&tableNumber=<number>` generate QR payload
-- `POST /api/seed` seed sample data
+- Vercel: [frontend_web](/d:/QR%20scan/frontend_web)
+- Render: [backend](/d:/QR%20scan/backend)
 
-## MongoDB Collections
-
-- `users`: admin and manager accounts
-- `restaurants`: restaurant records and manager linkage
-- `tables`: table inventory and QR targets
-- `menuitems`: menu catalog, stock flags, pricing rules
-- `orders`: placed orders, bill totals, split billing
-- `payments`: payment lifecycle records
-
-## Local Setup
+## Local Development
 
 1. Install dependencies:
 
 ```bash
+cd backend
+npm install
+cd ..\frontend_web
 npm install
 ```
 
-2. Create your env file:
+2. Create env files from:
 
 ```bash
-copy .env.example .env.local
+backend/.env.example
+frontend_web/.env.example
 ```
 
 3. Start MongoDB locally.
@@ -116,12 +69,17 @@ copy .env.example .env.local
 4. Seed demo data:
 
 ```bash
+cd backend
 npm run seed
 ```
 
-5. Start the app:
+5. Start the backend and frontend:
 
 ```bash
+cd backend
+npm run dev
+
+cd ..\frontend_web
 npm run dev
 ```
 
@@ -139,50 +97,8 @@ npm run dev
 - Managers can either paste an image URL or upload an image from the dashboard.
 - Uploaded files go to Cloudinary, and the returned secure URL is stored in MongoDB.
 
-## Production Notes
+## Deployment
 
-- Put Next.js behind a process manager like PM2 or systemd and run `node server.js`
-- Store JWT secret and third-party service secrets in a real secret manager
-- Add role checks around protected routes before deployment
-- Add webhooks for payment reconciliation and kitchen printer integrations as needed
-
-## Render Deployment
-
-1. Push this project to GitHub.
-2. Create a new `Web Service` on Render and connect the repo.
-3. Render can auto-detect [render.yaml](/d:/QR%20scan/render.yaml), or use these values manually:
-
-```text
-Build Command: npm install && npm run build
-Start Command: npm start
-```
-
-4. Add these environment variables in Render:
-
-```text
-NODE_ENV=production
-NEXT_PUBLIC_APP_URL=https://your-render-service.onrender.com
-MONGODB_URI=...
-JWT_SECRET=...
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-CLOUDINARY_CLOUD_NAME=...
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-```
-
-5. After the first deploy, update `NEXT_PUBLIC_APP_URL` to your final Render URL if needed and redeploy.
-
-6. Seed your production database only if you really want demo data. Do not seed production if it already has live data.
-
-## Reduce Render Free Cold Starts
-
-- Render free web services sleep after inactivity, so the first request may show a loading page while the app wakes up.
-- This cannot be fully removed from inside the app on the free plan.
-- To reduce it, ping this endpoint every 5-10 minutes from an external uptime monitor or cron service:
-
-```text
-https://your-render-service.onrender.com/api/health
-```
-
-- If you want the loading page gone reliably, move to a paid always-on plan.
+- Render backend config is in [render.yaml](/d:/QR%20scan/render.yaml)
+- Vercel frontend root directory should be `frontend_web`
+- Full env and deploy steps are in [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md)
