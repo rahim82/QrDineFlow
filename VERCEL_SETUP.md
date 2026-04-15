@@ -75,10 +75,10 @@ vercel --prod
 
 ## Current Configuration
 
-**vercel.json** has been updated with:
-- Proper build configuration
-- Routes setup for monorepo structure
-- Environment variable references
+**vercel.json** is intentionally minimal.
+- Do not use custom `builds` or `routes` for this project
+- Set `frontend_web` as the Vercel Root Directory in the dashboard
+- Configure environment variables in Vercel Project Settings instead of `vercel.json`
 
 **next.config.mjs** optimized with:
 - Webpack configuration for module fallbacks
