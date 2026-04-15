@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --background: #fff8f2;
   --foreground: #1c1917;
@@ -16,6 +20,7 @@ body {
     radial-gradient(circle at top right, rgba(20, 184, 166, 0.14), transparent 24%),
     linear-gradient(180deg, #fffaf5 0%, #fff2e2 100%);
   color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .shell {
@@ -23,7 +28,8 @@ body {
 }
 
 .glass-card {
-  @apply rounded-3xl border border-white/60 bg-white/75 shadow-[0_20px_80px_rgba(120, 53, 15, 0.12)] backdrop-blur;
+  @apply rounded-3xl border border-white/60 bg-white/75 backdrop-blur;
+  box-shadow: 0 20px 80px rgba(120, 53, 15, 0.12);
 }
 
 .section-title {
