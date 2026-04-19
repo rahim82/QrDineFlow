@@ -2,10 +2,10 @@
 
 Production-ready restaurant QR ordering system, now split for deployment:
 
-- [frontend_web](/d:/QR%20scan/frontend_web) for Vercel
+- [frontend](/d:/QR%20scan/frontend) for Vercel
 - [backend](/d:/QR%20scan/backend) for Render
 
-Detailed split setup is in [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md).
+Detailed split setup is in [DEPLOYMENT.md](/d:/QR%20scan/DEPLOYMENT.md).
 
 ## Features
 
@@ -20,8 +20,8 @@ Detailed split setup is in [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.
 
 ## Tech Stack
 
-- Next.js 16.2.1
-- Tailwind CSS 4.2.2
+- Next.js 16
+- Tailwind CSS 3
 - React 19
 - MongoDB + Mongoose
 - Socket.io
@@ -35,7 +35,7 @@ backend/
   models/
   scripts/
   validations/
-frontend_web/
+frontend/
   app/
   components/
   lib/
@@ -43,7 +43,7 @@ frontend_web/
 
 ## Deploy Targets
 
-- Vercel: [frontend_web](/d:/QR%20scan/frontend_web)
+- Vercel: [frontend](/d:/QR%20scan/frontend)
 - Render: [backend](/d:/QR%20scan/backend)
 
 ## Local Development
@@ -53,7 +53,7 @@ frontend_web/
 ```bash
 cd backend
 npm install
-cd ..\frontend_web
+cd ..\frontend
 npm install
 ```
 
@@ -61,7 +61,7 @@ npm install
 
 ```bash
 backend/.env.example
-frontend_web/.env.example
+frontend/.env.example
 ```
 
 3. Start MongoDB locally.
@@ -79,7 +79,7 @@ npm run seed
 cd backend
 npm run dev
 
-cd ..\frontend_web
+cd ..\frontend
 npm run dev
 ```
 
@@ -100,5 +100,7 @@ npm run dev
 ## Deployment
 
 - Render backend config is in [render.yaml](/d:/QR%20scan/render.yaml)
-- Vercel frontend root directory should be `frontend_web`
-- Full env and deploy steps are in [SPLIT_DEPLOYMENT.md](/d:/QR%20scan/SPLIT_DEPLOYMENT.md)
+- Render health check path is `/api/health`
+- Vercel frontend root directory should be `frontend`
+- Vercel build config is in [frontend/vercel.json](/d:/QR%20scan/frontend/vercel.json)
+- Full env and deploy steps are in [DEPLOYMENT.md](/d:/QR%20scan/DEPLOYMENT.md)

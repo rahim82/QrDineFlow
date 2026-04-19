@@ -1,13 +1,16 @@
 services:
   - type: web
-    name: qr-dineflow-api
+    name: qr-dineflow-backend
     runtime: node
     plan: free
     rootDir: backend
-    buildCommand: npm install --omit=dev
+    buildCommand: npm ci --omit=dev
     startCommand: npm start
+    healthCheckPath: /api/health
     autoDeploy: true
     envVars:
+      - key: NODE_VERSION
+        value: 20.11.1
       - key: NODE_ENV
         value: production
       - key: FRONTEND_APP_URL

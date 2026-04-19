@@ -60,7 +60,7 @@ export function MenuClient({ restaurantId, restaurantName, tableId, tableNumber,
     const [paymentStatus, setPaymentStatus] = useState("pending");
     useEffect(() => {
         const socket = getSocket();
-        socket.emit("join:table", `${restaurantId}:${tableNumber}`);
+        socket.emit("join:table", { restaurantId, tableNumber });
         socket.on("order:status", (payload) => setLatestStatus(`Order ${payload.orderId.slice(-5)} is ${payload.status}`));
         return () => {
             socket.off("order:status");
