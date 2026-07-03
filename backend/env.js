@@ -1,12 +1,32 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const envFiles = [".env.local", ".ENV.LOCAL", ".env"];
 
 for (const file of envFiles) {
     const envPath = path.resolve(process.cwd(), file);
-    if (existsSync(envPath) && typeof process.loadEnvFile === "function") {
-        process.loadEnvFile(envPath);
+    if (existsSync(envPath)) {
+        if (typeof process.loadEnvFile === "function") {
+            process.loadEnvFile(envPath);
+        } else {
+            try {
+                const content = readFileSync(envPath, "utf-8");
+                for (const line of content.split(/\r?\n/)) {
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith("#")) continue;
+                    const index = trimmed.indexOf("=");
+                    if (index > 0) {
+                        const key = trimmed.substring(0, index).trim();
+                        const value = trimmed.substring(index + 1).trim().replace(/^['"]|['"]$/g, "");
+                        if (key && !process.env[key]) {
+                            process.env[key] = value;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn(`Failed to parse env file ${envPath} manually:`, err);
+            }
+        }
     }
 }
 

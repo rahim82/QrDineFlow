@@ -75,7 +75,10 @@ export async function createOrderWithPayment(input) {
         totalPrice: Number((item.unitPrice * item.quantity).toFixed(2))
     }));
     const bill = calculateBill(lines, input.gstRate);
-    const splitParticipants = splitBill(lines, input.splitWith);
+    const splitNames = input.splitWith && input.splitWith.length > 0
+        ? [input.customerName, ...input.splitWith]
+        : [];
+    const splitParticipants = splitBill(lines, splitNames);
     const order = await Order.create({
         restaurantId: input.restaurantId,
         tableId: input.tableId,
